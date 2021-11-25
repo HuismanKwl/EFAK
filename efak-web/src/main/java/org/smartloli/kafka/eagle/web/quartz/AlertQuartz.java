@@ -148,7 +148,13 @@ public class AlertQuartz {
                 alarmMsg.setAlarmStatus("PROBLEM");
                 IMService im = new IMFactory().create();
                 im.sendPostMsgByDingDing(alarmMsg.toDingDingMarkDown(), alarmConfing.getAlarmUrl());
-            } else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
+            } else if (alarmConfing.getAlarmType().equals(AlarmType.FeiShu)) {
+                alarmMsg.setTitle("EFAK - Alert Consumer Notice");
+                alarmMsg.setAlarmContent("lag.overflow [ cluster(" + alarmConsumer.getCluster() + "), group(" + alarmConsumer.getGroup() + "), topic(" + alarmConsumer.getTopic() + "), current(" + lag + "), max(" + alarmConsumer.getLag() + ") ]");
+                alarmMsg.setAlarmStatus("PROBLEM");
+                IMService im = new IMFactory().create();
+                im.sendPostMsgByFeiShu(alarmMsg.toFeiShuMarkDown(), alarmConfing.getAlarmUrl());
+            }else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
                 alarmMsg.setTitle("`EFAK - Alert Consumer Notice`\n");
                 alarmMsg.setAlarmContent("<font color=\"warning\">lag.overflow [ cluster(" + alarmConsumer.getCluster() + "), group(" + alarmConsumer.getGroup() + "), topic(" + alarmConsumer.getTopic() + "), current(" + lag + "), max(" + alarmConsumer.getLag() + ") ]</font>");
                 alarmMsg.setAlarmStatus("<font color=\"warning\">PROBLEM</font>");
@@ -178,7 +184,13 @@ public class AlertQuartz {
                 alarmMsg.setAlarmStatus("NORMAL");
                 IMService im = new IMFactory().create();
                 im.sendPostMsgByDingDing(alarmMsg.toDingDingMarkDown(), alarmConfing.getAlarmUrl());
-            } else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
+            } else if (alarmConfing.getAlarmType().equals(AlarmType.FeiShu)) {
+                alarmMsg.setTitle("EFAK - Alert Consumer Notice");
+                alarmMsg.setAlarmContent("lag.normal [ cluster(" + alarmConsumer.getCluster() + "), group(" + alarmConsumer.getGroup() + "), topic(" + alarmConsumer.getTopic() + "), current(" + lag + "), max(" + alarmConsumer.getLag() + ") ]");
+                alarmMsg.setAlarmStatus("NORMAL");
+                IMService im = new IMFactory().create();
+                im.sendPostMsgByFeiShu(alarmMsg.toFeiShuMarkDown(), alarmConfing.getAlarmUrl());
+            }else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
                 alarmMsg.setTitle("`EFAK - Alert Consumer Notice`\n");
                 alarmMsg.setAlarmContent("<font color=\"#008000\">lag.normal [ cluster(" + alarmConsumer.getCluster() + "), group(" + alarmConsumer.getGroup() + "), topic(" + alarmConsumer.getTopic() + "), current(" + lag + "), max(" + alarmConsumer.getLag() + ") ]</font>");
                 alarmMsg.setAlarmStatus("<font color=\"#008000\">NORMAL</font>");
@@ -394,6 +406,33 @@ public class AlertQuartz {
                 alarmMsg.setAlarmTimes("current(" + cluster.getAlarmTimes() + "), max(" + cluster.getAlarmMaxTimes() + ")");
                 IMService im = new IMFactory().create();
                 im.sendPostMsgByDingDing(alarmMsg.toDingDingMarkDown(), alarmConfing.getAlarmUrl());
+            } else if (alarmConfing.getAlarmType().equals(AlarmType.FeiShu)) {
+                AlarmMessageInfo alarmMsg = new AlarmMessageInfo();
+                alarmMsg.setAlarmId(cluster.getId());
+                alarmMsg.setAlarmCluster(alarmConfing.getCluster());
+                alarmMsg.setTitle("EFAK - Alert Cluster Error");
+                if (AlarmType.TOPIC.equals(cluster.getType())) {
+                    JSONObject alarmTopicMsg = JSON.parseObject(server);
+                    String topic = alarmTopicMsg.getString("topic");
+                    long alarmCapacity = alarmTopicMsg.getLong("alarmCapacity");
+                    long realCapacity = alarmTopicMsg.getLong("realCapacity");
+                    alarmMsg.setAlarmContent("topic.capacity.overflow [topic(" + topic + "), real.capacity(" + StrUtils.stringify(realCapacity) + "), alarm.capacity(" + StrUtils.stringify(alarmCapacity) + ")]");
+                } else if (AlarmType.PRODUCER.equals(cluster.getType())) {
+                    JSONObject alarmTopicMsg = JSON.parseObject(server);
+                    String topic = alarmTopicMsg.getString("topic");
+                    String alarmSpeeds = alarmTopicMsg.getString("alarmSpeeds");
+                    long realSpeeds = alarmTopicMsg.getLong("realSpeeds");
+                    alarmMsg.setAlarmContent("producer.speed.overflow [topic(" + topic + "), real.speeds(" + realSpeeds + "), alarm.speeds.range(" + alarmSpeeds + ")]");
+                } else {
+                    alarmMsg.setAlarmContent("node.shutdown [ " + server + " ]");
+                }
+                alarmMsg.setAlarmDate(CalendarUtils.getDate());
+                alarmMsg.setAlarmLevel(cluster.getAlarmLevel());
+                alarmMsg.setAlarmProject(cluster.getType());
+                alarmMsg.setAlarmStatus("PROBLEM");
+                alarmMsg.setAlarmTimes("current(" + cluster.getAlarmTimes() + "), max(" + cluster.getAlarmMaxTimes() + ")");
+                IMService im = new IMFactory().create();
+                im.sendPostMsgByFeiShu(alarmMsg.toFeiShuMarkDown(), alarmConfing.getAlarmUrl());
             } else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
                 AlarmMessageInfo alarmMsg = new AlarmMessageInfo();
                 alarmMsg.setAlarmId(cluster.getId());
@@ -487,7 +526,34 @@ public class AlertQuartz {
                 alarmMsg.setAlarmTimes("current(" + cluster.getAlarmTimes() + "), max(" + cluster.getAlarmMaxTimes() + ")");
                 IMService im = new IMFactory().create();
                 im.sendPostMsgByDingDing(alarmMsg.toDingDingMarkDown(), alarmConfing.getAlarmUrl());
-            } else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
+            } else if (alarmConfing.getAlarmType().equals(AlarmType.FeiShu)) {
+                AlarmMessageInfo alarmMsg = new AlarmMessageInfo();
+                alarmMsg.setAlarmId(cluster.getId());
+                alarmMsg.setAlarmCluster(alarmConfing.getCluster());
+                alarmMsg.setTitle("EFAK - Alert Cluster Notice");
+                if (AlarmType.TOPIC.equals(cluster.getType())) {
+                    JSONObject alarmTopicMsg = JSON.parseObject(server);
+                    String topic = alarmTopicMsg.getString("topic");
+                    long alarmCapacity = alarmTopicMsg.getLong("alarmCapacity");
+                    long realCapacity = alarmTopicMsg.getLong("realCapacity");
+                    alarmMsg.setAlarmContent("topic.capacity.normal [topic(" + topic + "), real.capacity(" + StrUtils.stringify(realCapacity) + "), alarm.capacity(" + StrUtils.stringify(alarmCapacity) + ")]");
+                } else if (AlarmType.PRODUCER.equals(cluster.getType())) {
+                    JSONObject alarmTopicMsg = JSON.parseObject(server);
+                    String topic = alarmTopicMsg.getString("topic");
+                    String alarmSpeeds = alarmTopicMsg.getString("alarmSpeeds");
+                    long realSpeeds = alarmTopicMsg.getLong("realSpeeds");
+                    alarmMsg.setAlarmContent("producer.speed.normal [topic(" + topic + "), real.speeds(" + realSpeeds + "), alarm.speeds.range(" + alarmSpeeds + ")]");
+                } else {
+                    alarmMsg.setAlarmContent("node.alive [ " + server + " ]");
+                }
+                alarmMsg.setAlarmDate(CalendarUtils.getDate());
+                alarmMsg.setAlarmLevel(cluster.getAlarmLevel());
+                alarmMsg.setAlarmProject(cluster.getType());
+                alarmMsg.setAlarmStatus("NORMAL");
+                alarmMsg.setAlarmTimes("current(" + cluster.getAlarmTimes() + "), max(" + cluster.getAlarmMaxTimes() + ")");
+                IMService im = new IMFactory().create();
+                im.sendPostMsgByFeiShu(alarmMsg.toFeiShuMarkDown(), alarmConfing.getAlarmUrl());
+            }else if (alarmConfing.getAlarmType().equals(AlarmType.WeChat)) {
                 AlarmMessageInfo alarmMsg = new AlarmMessageInfo();
                 alarmMsg.setAlarmId(cluster.getId());
                 alarmMsg.setAlarmCluster(alarmConfing.getCluster());

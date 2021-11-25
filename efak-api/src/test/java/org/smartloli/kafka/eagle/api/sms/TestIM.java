@@ -32,6 +32,7 @@ import org.smartloli.kafka.eagle.common.protocol.alarm.AlarmMessageInfo;
 public class TestIM {
     public static void main(String[] args) {
         testAlarmClusterByDingDingMarkDownNewStyle();
+        // testAlarmClusterByFeiShuMarkDownNewStyle();
 //        testAlarmClusterByDingDingMarkDown();
 //		testAlarmClusterByWeChatMarkDown();
 

@@ -24,6 +24,7 @@ Here are a few `EFAK` system screenshots:
 # Alert Support
 `EFAK` supports currently popular IM alarm systems, such as:
 * DingDing
+* FeiShu
 * WeChat
 * Webhook
 * Email

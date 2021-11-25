@@ -83,6 +83,17 @@ public class AlarmMessageInfo extends BaseProtocol {
         return error;
     }
 
+    public String toFeiShuMarkDown() {
+        // String titleType = "";
+        // if (KConstants.AlarmStatus.NORMAL.equals(alarmStatus)) {
+        //     titleType = "Notice";
+        // } else {
+        //     titleType = "Alert";
+        // }
+        return title + " \n AlarmID : [ " + alarmId + " ]\n AlarmCluster : [ " + alarmCluster + " ]\n AlarmStatus : [ " + alarmStatus + " ]\n" + " AlarmLevel : [ " + alarmLevel + " ]\n" + " AlarmProject : [ " + alarmProject + " ]\n" + " AlarmTimes : [ " + alarmTimes
+                + " ]\n AlarmDate : [ " + alarmDate + " ]\n" + " AlarmContent : [ " + alarmContent + " ]";
+    }
+
     public String toWeChatMarkDown() {
         return title + " \n\n>AlarmID : [ **" + alarmId + "** ]\n> AlarmCluster : [ **" + alarmCluster + "** ]\n> AlarmStatus : [ **" + alarmStatus + "** ]\n" + "> AlarmLevel : [ " + alarmLevel + " ]\n" + "> AlarmProject : [ " + alarmProject + " ]\n" + "> AlarmTimes : [ " + alarmTimes
                 + " ]\n" + "> AlarmDate : [ " + alarmDate + " ]\n" + "> AlarmContent : [ " + alarmContent + " ]";

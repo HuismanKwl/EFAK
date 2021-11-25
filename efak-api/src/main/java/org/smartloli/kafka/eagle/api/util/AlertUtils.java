@@ -98,6 +98,38 @@ public class AlertUtils {
         return map;
     }
 
+
+     /**
+     * Send Json msg by feishu.
+     */
+    public static String sendTestMsgByFeiShu(String uri, String data) {
+        Map<String, Object> feiShuMarkdownMessage = getFeiShuMarkdownMessage(IM.TITLE, data, true);
+        return HttpClientUtils.doPostJson(uri, JSONObject.toJSONString(feiShuMarkdownMessage));
+    }
+
+    /**
+     * create markdown format map, do not point @user, option @all.
+     *
+     * @param title
+     * @param text
+     * @param isAtAll
+     */
+    private static Map<String, Object> getFeiShuMarkdownMessage(String title, String text, boolean isAtAll) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("msgtype", MARKDOWN);
+
+        Map<String, Object> markdown = new HashMap<>();
+        markdown.put("title", title);
+        markdown.put("text", text);
+        map.put(MARKDOWN, markdown);
+
+        Map<String, Object> at = new HashMap<>();
+        at.put("isAtAll", isAtAll);
+        map.put("at", at);
+
+        return map;
+    }
+
     /**
      * Send msg by email or webhook.
      */

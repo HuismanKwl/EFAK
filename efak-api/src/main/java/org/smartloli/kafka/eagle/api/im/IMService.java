@@ -29,6 +29,10 @@ public interface IMService {
 	/** Send post request alert message by dingding. */
 	public void sendPostMsgByDingDing(String data, String url);
 
+	/** Send post request alert message by feishu. */
+	public void sendPostMsgByFeiShu(String data, String url);
+
+
 	/** Send alert message by wechat. */
 	public void sendPostMsgByWeChat(String data,String url);
 

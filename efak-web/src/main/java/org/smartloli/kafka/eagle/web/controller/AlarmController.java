@@ -706,7 +706,7 @@ public class AlarmController {
     }
 
     /**
-     * Get alarm type list, such as email, dingding, wechat and so on.
+     * Get alarm type list, such as email, dingding, feishu, wechat and so on.
      */
     @RequestMapping(value = "/alarm/type/list/ajax", method = RequestMethod.GET)
     public void alarmTypeListAjax(HttpServletResponse response, HttpServletRequest request) {
@@ -980,6 +980,8 @@ public class AlarmController {
                 result = AlertUtils.sendTestMsgByEmail(url, data);
             } else if (AlarmType.DingDing.equals(type)) {
                 result = AlertUtils.sendTestMsgByDingDing(url, msg);
+            } else if (AlarmType.FeiShu.equals(type)) {
+                result = AlertUtils.sendTestMsgByFeiShu(url, msg);
             } else if (AlarmType.WeChat.equals(type)) {
                 result = AlertUtils.sendTestMsgByWeChat(url, msg);
             }

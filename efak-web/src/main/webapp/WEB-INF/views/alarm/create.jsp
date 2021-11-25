@@ -35,7 +35,7 @@
                 </ol>
                 <div class="alert alert-info alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <i class="fas fa-info-circle"></i> <strong>Set different alarm modes, such as DingDing, WeChat, Mail
+                    <i class="fas fa-info-circle"></i> <strong>Set different alarm modes, such as DingDing, FeiShu, WeChat, Mail
                     etc.</strong>
                 </div>
                 <!-- content body -->

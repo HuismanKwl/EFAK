@@ -27,7 +27,7 @@ import java.util.Date;
 
 /**
  * Used to schedule and send different types of alarm queue information. Such as
- * email, dingding, wechat etc.
+ * email, dingding, feishu, wechat etc.
  *
  * @author smartloli.
  * <p>

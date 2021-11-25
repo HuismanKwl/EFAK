@@ -59,7 +59,11 @@ $(document).ready(function () {
             $("#div_alarm_http").hide();
             $("#div_alarm_address").hide();
             $("#ke_alarm_url").attr('placeholder', "https://oapi.dingtalk.com/robot/send?access_token=");
-        } else if (text.indexOf("WeChat") > -1) {
+        } else if (text.indexOf("FeiShu") > -1) {
+            $("#div_alarm_http").hide();
+            $("#div_alarm_address").hide();
+            $("#ke_alarm_url").attr('placeholder', "https://oapi.dingtalk.com/robot/send?access_token=");
+        }else if (text.indexOf("WeChat") > -1) {
             $("#div_alarm_http").hide();
             $("#div_alarm_address").hide();
             $("#ke_alarm_url").attr('placeholder', "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=");
@@ -89,7 +93,7 @@ $(document).ready(function () {
                 }),
                 url: '/alarm/config/test/send/ajax',
                 success: function (datas) {
-                    if (type.indexOf("DingDing") > -1 || type.indexOf("WeChat") > -1 || type.indexOf("Email") > -1) {
+                    if (type.indexOf("DingDing") > -1 || (type.indexOf("FeiShu") > -1 || type.indexOf("WeChat") > -1 || type.indexOf("Email") > -1) {
                         if (datas.errcode == 0) {
                             $("#success_mssage_alarm_config").show();
                             setTimeout(function () {
